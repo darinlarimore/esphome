@@ -116,16 +116,12 @@ void MAX7219Component::display() {
     for (uint8_t chip_line = 0; chip_line < this->num_chip_lines_; chip_line++) {
       for (uint8_t j = 0; j < 8; j++) {
         bool reverse =
-        chip_line % 2 != 0 && this->chip_lines_style_ == ChipLinesStyle::SNAKE
-            ? !this->reverse_
-            : this->reverse_;
-        uint8_t colIndex = j;
-        uint8_t chipIndex = chip;
+            chip_line % 2 != 0 && this->chip_lines_style_ == ChipLinesStyle::SNAKE ? !this->reverse_ : this->reverse_;
         if (reverse) {
-          chipIndex = (this->num_chips_ / this->num_chip_lines_ - chip - 1);
-          colIndex = 7 - j;
+          pixels[j] = this->max_displaybuffer_[chip_line][(this->num_chips_ / this->num_chip_lines_ - chip - 1) * 8 + (7 - j)];
+        } else {
+          pixels[j] = this->max_displaybuffer_[chip_line][chip * 8 + j];
         }
-        pixels[j] = this->max_displaybuffer_[chip_line][chipIndex * 8 + colIndex];
       }
       if (chip_line % 2 != 0 && this->chip_lines_style_ == ChipLinesStyle::SNAKE)
         this->orientation_ = orientation_180_();
