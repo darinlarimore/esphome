@@ -67,8 +67,8 @@ CONFIG_SCHEMA = (
             cv.Optional(
                 CONF_SCROLL_DWELL, default="1000ms"
             ): cv.positive_time_period_milliseconds,
-            cv.Optional(CONF_REVERSE_ENABLE, default=False): cv.boolean,
-            cv.Optional(CONF_FLIP_X, default=False): cv.boolean,
+            cv.Optional(CONF_REVERSE_ENABLE, default=True): cv.boolean,
+            cv.Optional(CONF_FLIP_X, default=True): cv.boolean,
         }
     )
     .extend(cv.polling_component_schema("500ms"))
