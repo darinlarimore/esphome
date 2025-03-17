@@ -113,10 +113,8 @@ void MAX7219Component::display() {
   // Fill the pixel parameter with display data
   // Send the data to the chip
   for (uint8_t chip_line = 0; chip_line < this->num_chip_lines_; chip_line++) {
-    bool reverse =
-        (chip_line % 2 != 0 && this->chip_lines_style_ == ChipLinesStyle::SNAKE) ? !this->reverse_ : this->reverse_;
     for (uint8_t chip_idx = 0; chip_idx < this->num_chips_ / this->num_chip_lines_; chip_idx++) {
-      uint8_t chip = reverse ? (this->num_chips_ / this->num_chip_lines_ - 1 - chip_idx) : chip_idx;
+      uint8_t chip = this->reverse_ ? (this->num_chips_ / this->num_chip_lines_ - 1 - chip_idx) : chip_idx;
       for (uint8_t j = 0; j < 8; j++) {
         pixels[j] = this->max_displaybuffer_[chip_line][chip * 8 + j];
       }
