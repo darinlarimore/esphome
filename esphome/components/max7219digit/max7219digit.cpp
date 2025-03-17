@@ -110,26 +110,17 @@ void MAX7219Component::display() {
   uint8_t pixels[8];
   // Run this loop for every MAX CHIP (GRID OF 64 leds)
   // Run this routine for the rows of every chip 8x row 0 top to 7 bottom
-  // Fill the pixel parameter with display data
+  // Fill the pixel parameter with diplay data
   // Send the data to the chip
-  for (uint8_t chip = 0; chip < this->num_chips_ / this->num_chip_lines_; chip++) {
-    for (uint8_t chip_line = 0; chip_line < this->num_chip_lines_; chip_line++) {
-      for (uint8_t j = 0; j < 8; j++) {
-        bool reverse =
-            chip_line % 2 != 0 && this->chip_lines_style_ == ChipLinesStyle::SNAKE ? !this->reverse_ : this->reverse_;
-        if (reverse) {
-          pixels[j] =
-              this->max_displaybuffer_[chip_line][(this->num_chips_ / this->num_chip_lines_ - chip - 1) * 8 + j];
-        } else {
-          pixels[j] = this->max_displaybuffer_[chip_line][chip * 8 + j];
-        }
+  for (uint8_t i = 0; i < this->num_chips_; i++) {
+    for (uint8_t j = 0; j < 8; j++) {
+      if (this->reverse_) {
+        pixels[j] = this->max_displaybuffer_[(this->num_chips_ - i - 1) * 8 + j];
+      } else {
+        pixels[j] = this->max_displaybuffer_[i * 8 + j];
       }
-      if (chip_line % 2 != 0 && this->chip_lines_style_ == ChipLinesStyle::SNAKE)
-        this->orientation_ = orientation_180_();
-      this->send64pixels(chip_line * this->num_chips_ / this->num_chip_lines_ + chip, pixels);
-      if (chip_line % 2 != 0 && this->chip_lines_style_ == ChipLinesStyle::SNAKE)
-        this->orientation_ = orientation_180_();
     }
+    this->send64pixels(i, pixels);
   }
 }
 
