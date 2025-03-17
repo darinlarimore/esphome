@@ -119,7 +119,7 @@ void MAX7219Component::display() {
             chip_line % 2 != 0 && this->chip_lines_style_ == ChipLinesStyle::SNAKE ? !this->reverse_ : this->reverse_;
         if (reverse) {
             pixels[j] =
-                this->max_displaybuffer_[chip_line][(this->num_chips_ / this->num_chip_lines_ - 1 - chip) * 8 + j];
+              this->max_displaybuffer_[chip_line][(this->num_chips_ / this->num_chip_lines_ - 1 - chip) * 8 + (7 - j)];
         } else {
           pixels[j] = this->max_displaybuffer_[chip_line][chip * 8 + j];
         }
